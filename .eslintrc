@@ -1,0 +1,19 @@
+{
+  "parser": "babel-eslint",
+  "ecmaFeatures": {
+    "jsx": true
+  },
+  "env": {
+    "browser": true
+  },
+  "rules": {
+    "eqeqeq": "off",
+    "brace-style": "warn",
+    "camelcase": "warn",
+    "spaced-comment": "warn",
+    "indent": ["warn", "tab"]
+  },
+  "parserOptions": {
+    "ecmaVersion": 6
+  }
+}
