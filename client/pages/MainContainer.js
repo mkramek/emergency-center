@@ -67,24 +67,23 @@ export default function MainContainer() {
 		console.log(currentData);
 	};
 
-	useEffect(() => {
-		if (activeStep === steps.length) {
-			axios.post('/api/emergency', {
-				issuerNeedsHelp: data.issuerNeedsHelp,
-				isFire: data.fireDeptRequired,
-				isLifeDanger: data.rescueTeamRequired,
-				type: data.type,
-				phoneNumber: data.phone,
-				address: data.address
-			}).then((response) => {
-				if (response.status === 200) {
-					console.info('Zgłoszenie wysłane');
-				} else {
-					console.error('Błąd podczas wysyłania zgłoszenia: ' + response.data);
-				}
-			});
-		}
-	}, []);
+	if (data.sendRequest) {
+		data.sendRequest = false;
+		axios.post('/api/emergency', {
+			issuerNeedsHelp: data.issuerNeedsHelp,
+			isFire: data.fireDeptRequired,
+			isLifeDanger: data.rescueTeamRequired,
+			type: data.type,
+			phoneNumber: data.phone,
+			address: data.address
+		}).then((response) => {
+			if (response.status === 200) {
+				console.info('Zgłoszenie wysłane');
+			} else {
+				console.error('Błąd podczas wysyłania zgłoszenia: ' + response.data);
+			}
+		});
+	}
 
 	const getStepContent = (step) => {
 		switch (step) {
