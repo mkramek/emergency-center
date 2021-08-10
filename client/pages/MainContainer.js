@@ -70,7 +70,6 @@ export default function MainContainer() {
 	if (data.sendRequest) {
 		data.sendRequest = false;
 		axios.post('/api/emergency', {
-			issuerNeedsHelp: data.issuerNeedsHelp,
 			isFire: data.fireDeptRequired,
 			isLifeDanger: data.rescueTeamRequired,
 			type: data.type,

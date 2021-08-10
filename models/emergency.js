@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
 		status: DataTypes.STRING,
 		isFire: DataTypes.BOOLEAN,
 		isLifeDanger: DataTypes.BOOLEAN,
-		issuerNeedsHelp: DataTypes.BOOLEAN,
 		type: DataTypes.INTEGER,
 		phoneNumber: DataTypes.STRING,
 		address: DataTypes.STRING,
