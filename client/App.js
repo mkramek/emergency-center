@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import MainContainer from "./pages/MainContainer";
+import { MainRouter } from "./components";
 
-ReactDOM.render(<MainContainer />, document.getElementById('root'));
+ReactDOM.render(<MainRouter />, document.getElementById('root'));

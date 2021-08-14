@@ -1,5 +1,5 @@
 const models = require('../models');
-const { Dispatcher: Dispatcher } = models;
+const { Dispatcher } = models;
 
 const getDispatchers = (req, res) => {
 	Dispatcher.findAll().then((dispatchers) => {

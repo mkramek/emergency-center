@@ -18,8 +18,9 @@ export default function SecondStep(props) {
 	const classes = useStyles();
 	const [type, setType] = useState('');
 	const [types, setTypes] = useState([]);
+	const [manualLocation, setManualLocation] = useState(false);
 
-	const handleChange = (event) => {
+	const handleTypeChange = (event) => {
 		setType(event.target.value);
 		props.onDataReceived({ type: event.target.value });
 	};
@@ -31,6 +32,15 @@ export default function SecondStep(props) {
 		});
 	}, []);
 
+	useEffect(() => {
+		if ("geolocation" in navigator) {
+			navigator.geolocation.getCurrentPosition((pos) => {
+				props.onDataReceived({ address: `${pos.coords.latitude},${pos.coords.longitude}` })
+			});
+		} else {
+			setManualLocation(true);
+		}
+	}, []);
 
 	return (
 		<React.Fragment>
@@ -39,11 +49,11 @@ export default function SecondStep(props) {
 			</Typography>
 			<Grid container spacing={3}>
 				<Grid item xs={12} md={6}>
-					<FormControl variant="outlined" fullWidth={true} className={classes.formControl}>
+					<FormControl required variant="outlined" fullWidth={true} className={classes.formControl}>
 						<Select
 							id="emergencyType"
 							value={type}
-							onChange={handleChange}
+							onChange={handleTypeChange}
 						>
 							<MenuItem value="">
 								<em>-</em>
@@ -59,31 +69,7 @@ export default function SecondStep(props) {
 				Dane kontaktowe
 			</Typography>
 			<Grid container spacing={3}>
-				<Grid item xs={12} md={6}>
-					<TextField
-						required
-						id="firstName"
-						label="Imię"
-						fullWidth
-						autoComplete="name"
-						onChange={(event) => {
-							props.onDataReceived({ firstName: event.target.value });
-						}}
-					/>
-				</Grid>
-				<Grid item xs={12} md={6}>
-					<TextField
-						required
-						id="lastName"
-						label="Nazwisko"
-						fullWidth
-						autoComplete="lastname"
-						onChange={(event) => {
-							props.onDataReceived({ lastName: event.target.value });
-						}}
-					/>
-				</Grid>
-				<Grid item xs={12} md={6}>
+				<Grid item xs={12}>
 					<TextField
 						required
 						id="phoneNumber"
@@ -95,15 +81,31 @@ export default function SecondStep(props) {
 						}}
 					/>
 				</Grid>
-				<Grid item xs={12} md={6}>
+				<Grid item xs={12}>
+					<FormControlLabel
+						control={
+							<Checkbox
+								onChange={(ev) => {
+									props.onDataReceived({ manualLocation: ev.target.checked })
+									setManualLocation(ev.target.checked)
+								}}
+								color="primary"
+								name="manualLocation"
+								value="true"
+							/>
+						}
+						label="Wpiszę lokalizację ręcznie"
+					/>
+				</Grid>
+				<Grid item xs={12}>
 					<TextField
-						required
 						id="address"
 						label="Adres zdarzenia"
 						fullWidth
 						onChange={(event) => {
 							props.onDataReceived({ address: event.target.value });
 						}}
+						disabled={!manualLocation}
 					/>
 				</Grid>
 			</Grid>

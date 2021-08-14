@@ -4,6 +4,7 @@ import { CssBaseline, AppBar, Toolbar, Paper, Stepper, Step, StepLabel, Button, 
 import FirstStep from './FirstStep';
 import SecondStep from './SecondStep';
 import ThirdStep from './ThirdStep';
+import axios from "axios";
 
 function Copyright() {
 	return (
@@ -99,9 +100,43 @@ export default function MainContainer() {
 
 	const classes = useStyles();
 	const [activeStep, setActiveStep] = React.useState(0);
+	const [error, setError] = React.useState('');
 
 	const handleNext = () => {
-		setActiveStep(activeStep + 1);
+		const validation = () => {
+			const mandatoryKeys = ["phone", "type", "address"];
+			for (const key of mandatoryKeys) {
+				if (!Object.keys(data).includes(key)) {
+					return false;
+				}
+			}
+			const MIN_KEYS_COUNT = 3;
+			let keys = 0;
+			for (const key of Object.keys(data)) {
+				keys++;
+				if (data[key].length < 1 || (key === "phone" && !data[key].match("^[0-9]+$"))) {
+					setError("Nieprawidłowo wprowadzone dane");
+					return false;
+				}
+			}
+			return keys >= MIN_KEYS_COUNT;
+		};
+		if (activeStep !== 1 || validation()) {
+			if (activeStep === 2) {
+				axios.post('/api/emergency', {
+					status: 'Wysłano zgłoszenie',
+					address: data.address,
+					type: data.type,
+					isFire: data.fireDeptRequired,
+					isLifeDanger: data.rescueTeamRequired,
+					phoneNumber: data.phone
+				})
+			}
+			setError("");
+			setActiveStep(activeStep + 1);
+		} else {
+			setError("Nieprawidłowo wprowadzone dane");
+		}
 	};
 
 	const handleBack = () => {
@@ -155,6 +190,13 @@ export default function MainContainer() {
 						) : (
 							<React.Fragment>
 								{getStepContent(activeStep)}
+								{error && <Typography
+									color="error"
+									align="center"
+									display="block"
+								>
+									{error}
+								</Typography>}
 								<div className={classes.buttons}>
 									{activeStep !== 0 && (
 										<Button onClick={handleBack} className={classes.button}>

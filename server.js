@@ -6,20 +6,28 @@ const env = process.env.NODE_ENV || 'development';
 const db = require('./models');
 
 const PORT = process.env.PORT || 5000;
-const ROOT = '/';
+const route = {
+	ROOT: '/',
+	ALL: '*'
+};
 
 server.use(express.json());
-server.use(ROOT, routes.emergencyType);
-server.use(ROOT, routes.emergency);
-server.use(ROOT, routes.dispatcher);
-server.use(ROOT, express.static(path.join(__dirname, 'client', 'dist')));
+server.use(express.static(path.join(__dirname, 'client', 'dist')));
+server.use(route.ROOT, routes.emergencyType);
+server.use(route.ROOT, routes.emergency);
+server.use(route.ROOT, routes.dispatcher);
+server.use(route.ROOT, routes.auth);
+server.use((req, res) => {
+	res.sendFile('index.html', { root: path.join(__dirname, 'client', 'dist') });
+});
 
 server.listen(PORT, () => {
 	console.info(`Server runs on port ${PORT} in ${env} mode.`);
 });
 
-db.sequelize.sync({ force: true, logging: console.log }).then(() => {
+db.sequelize.sync({ force: true }).then(() => {
 	console.log("Database synchronised");
+
 	const { Dispatcher, EmergencyType } = db;
 	Dispatcher.create({
 		firstName: 'Jan',
@@ -27,20 +35,32 @@ db.sequelize.sync({ force: true, logging: console.log }).then(() => {
 		email: 'jan.kowalski@112.pl',
 		password: '112'
 	});
+
+	Dispatcher.create({
+		firstName: 'Kamil',
+		lastName: 'Nowak',
+		email: 'kamil.nowak@112.pl',
+		password: '112'
+	});
+
 	const defaultEmergencyTypes = [
-		'Pożar',
 		'Powódź',
-		'Trzęsienie ziemi',
-		'Huragan',
 		'Tornado',
-		'Lawina',
-		'Zamieć',
+		'Rozległy pożar terenu',
+		'Trzęsienie ziemi',
 		'Susza',
-		'Burza piaskowa',
-		'Fala upałów',
 		'Tsunami',
-		'Cyklon'
+		'Wybuch wulkanu',
+		'Ekstremalny upał',
+		'Ekstremalny mróz',
+		'Wybuch meteorytu',
+		'Upadek meteorytu',
+		'Lawina śnieżna',
+		'Tsunami',
+		'Huragan',
+		'Osuwisko ziemi'
 	];
+
 	for (const type of defaultEmergencyTypes) {
 		EmergencyType.create({
 			name: type || '',

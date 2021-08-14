@@ -37,12 +37,6 @@ export default function ThirdStep(props) {
 			</Typography>
 			<List disablePadding>
 				<ListItem className={classes.listItem}>
-					<ListItemText primary="Zgłaszający potrzebuje pomocy" />
-					<Typography variant="subtitle1" className={classes.total}>
-						{data.issuerNeedsHelp ? 'Tak' : 'Nie'}
-					</Typography>
-				</ListItem>
-				<ListItem className={classes.listItem}>
 					<ListItemText primary="Typ zgłoszenia" />
 					<Typography variant="subtitle1" className={classes.total}>
 						{emergencyTypeName}
@@ -60,12 +54,6 @@ export default function ThirdStep(props) {
 					<ListItemText primary="Adres zgłoszenia" />
 					<Typography variant="subtitle1" className={classes.total}>
 						{data.address}
-					</Typography>
-				</ListItem>
-				<ListItem className={classes.listItem}>
-					<ListItemText primary="Imię i nazwisko zgłaszającego" />
-					<Typography variant="subtitle1" className={classes.total}>
-						{`${data.firstName} ${data.lastName}`}
 					</Typography>
 				</ListItem>
 				<ListItem className={classes.listItem}>
