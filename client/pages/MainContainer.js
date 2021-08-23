@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline, AppBar, Toolbar, Paper, Stepper, Step, StepLabel, Button, Link, Typography } from '@material-ui/core';
 import FirstStep from './FirstStep';
@@ -124,7 +124,7 @@ export default function MainContainer() {
 		if (activeStep !== 1 || validation()) {
 			if (activeStep === 2) {
 				axios.post('/api/emergency', {
-					status: 'Wysłano zgłoszenie',
+					status: 'Otwarte',
 					address: data.address,
 					type: data.type,
 					isFire: data.fireDeptRequired,

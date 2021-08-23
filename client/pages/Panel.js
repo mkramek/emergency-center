@@ -1,26 +1,21 @@
 import React from 'react';
 import axios from 'axios';
 import {
-	Container,
-	Box,
 	Typography,
 	CssBaseline,
 	AppBar,
 	Toolbar,
 	Paper,
-	Stepper,
-	Step,
-	StepLabel,
 	Button,
 	Link,
 	Table,
 	TableHead,
 	TableBody,
 	TableRow,
-	TableCell
+	TableCell,
+	makeStyles
 } from "@material-ui/core";
 import { Redirect } from "react-router";
-import { makeStyles } from "@material-ui/core/styles";
 
 export default function Panel(props) {
 	const [emergencies, setEmergencies] = React.useState([]);
@@ -29,9 +24,9 @@ export default function Panel(props) {
 	const [redirectToAuth, setRedirectToAuth] = React.useState(false);
 
 	const Status = {
-		RESOLVED: "Rozwiązano zgłoszenie",
-		IN_PROGRESS: "Przyjęto zgłoszenie",
-		UNITS_SENT: "Wysłano jednostki"
+		RESOLVED: "Zamknięte",
+		IN_PROGRESS: "W trakcie",
+		OPENED: "Otwarte"
 	};
 
 	React.useEffect(() => {
@@ -172,8 +167,6 @@ export default function Panel(props) {
 											<TableCell>
 												<Button disabled={emergency.status === Status.RESOLVED} onClick={updateStatus(emergency.id, Status.IN_PROGRESS)}
 													color={"primary"}>{Status.IN_PROGRESS}</Button>
-												<Button disabled={emergency.status === Status.RESOLVED} onClick={updateStatus(emergency.id, Status.UNITS_SENT)}
-													color={"default"}>{Status.UNITS_SENT}</Button>
 												<Button disabled={emergency.status === Status.RESOLVED} onClick={updateStatus(emergency.id, Status.RESOLVED)}
 													color={"secondary"}>{Status.RESOLVED}</Button>
 											</TableCell>
