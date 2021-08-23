@@ -19,6 +19,7 @@ export default function SecondStep(props) {
 	const [type, setType] = useState('');
 	const [types, setTypes] = useState([]);
 	const [manualLocation, setManualLocation] = useState(false);
+	const [location, setLocation] = useState('');
 
 	const handleTypeChange = (event) => {
 		setType(event.target.value);
@@ -35,7 +36,8 @@ export default function SecondStep(props) {
 	useEffect(() => {
 		if ("geolocation" in navigator) {
 			navigator.geolocation.getCurrentPosition((pos) => {
-				props.onDataReceived({ address: `${pos.coords.latitude},${pos.coords.longitude}` })
+				props.onDataReceived({ address: `${pos.coords.latitude},${pos.coords.longitude}` });
+				setLocation(`${pos.coords.latitude},${pos.coords.longitude}`);
 			});
 		} else {
 			setManualLocation(true);
@@ -104,8 +106,10 @@ export default function SecondStep(props) {
 						fullWidth
 						onChange={(event) => {
 							props.onDataReceived({ address: event.target.value });
+							setLocation(event.target.value);
 						}}
 						disabled={!manualLocation}
+						value={location}
 					/>
 				</Grid>
 			</Grid>
