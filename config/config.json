@@ -5,7 +5,11 @@
     "username": "pehdcsgnlk",
     "password": "23NFM06V563I0M3C$",
     "database": "postgres",
-    "port": "5432"
+    "port": "5432",
+    "ssl": true,
+    "dialectOptions": {
+      "ssl": true
+    }
   },
   "test": {
     "dialect": "sqlite",
@@ -17,6 +21,10 @@
     "username": "pehdcsgnlk",
     "password": "23NFM06V563I0M3C$",
     "database": "postgres",
-    "port": "5432"
+    "port": "5432",
+    "ssl": true,
+    "dialectOptions": {
+      "ssl": true
+    }
   }
 }
