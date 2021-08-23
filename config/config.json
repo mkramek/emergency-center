@@ -1,14 +1,22 @@
 {
   "development": {
-    "dialect": "sqlite",
-    "storage": "./database.sqlite3"
+    "dialect": "postgres",
+    "host": "emergcenter-server.postgres.database.azure.com",
+    "username": "pehdcsgnlk",
+    "password": "23NFM06V563I0M3C$",
+    "database": "postgres",
+    "port": "5432"
   },
   "test": {
     "dialect": "sqlite",
     "storage": ":memory"
   },
   "production": {
-    "dialect": "sqlite",
-    "storage": "./database.sqlite3"
+    "dialect": "postgres",
+    "host": "emergcenter-server.postgres.database.azure.com",
+    "username": "pehdcsgnlk",
+    "password": "23NFM06V563I0M3C$",
+    "database": "postgres",
+    "port": "5432"
   }
 }
