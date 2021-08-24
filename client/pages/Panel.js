@@ -119,6 +119,30 @@ export default function Panel(props) {
 		return `${dispatcher.firstName} ${dispatcher.lastName}`;
 	};
 
+	const handleSortByDate = () => {
+		const table = document.querySelector('tbody');
+		const rows = [].slice.call(table.querySelectorAll('tr'));
+		rows.sort((a,b) => {
+			return Date.parse(a.cells[0].innerHTML) - Date.parse(b.cells[0].innerHTML);
+		});
+		rows.forEach((v) => {
+			table.appendChild(v);
+		});
+	};
+
+	const handleSortByStatus = () => {
+		const table = document.querySelector('tbody');
+		const rows = [].slice.call(table.querySelectorAll('tr'));
+		rows.sort((a,b) => {
+			if (a.cells[5].innerHTML > b.cells[5].innerHTML) return 1;
+			if (a.cells[5].innerHTML < b.cells[5].innerHTML) return -1;
+			return 0;
+		});
+		rows.forEach((v) => {
+			table.appendChild(v);
+		});
+	};
+
 	return (
 		<React.Fragment>
 			<CssBaseline />
@@ -136,12 +160,12 @@ export default function Panel(props) {
 						<Table size="small">
 							<TableHead>
 								<TableRow>
-									<TableCell>Data zgłoszenia</TableCell>
+									<TableCell>Data zgłoszenia <Button onClick={handleSortByDate}>Sortuj</Button></TableCell>
 									<TableCell>Typ</TableCell>
 									<TableCell>Lokalizacja</TableCell>
 									<TableCell>Straż pożarna?</TableCell>
 									<TableCell>Pogotowie rat.?</TableCell>
-									<TableCell>Status</TableCell>
+									<TableCell>Status <Button onClick={handleSortByStatus}>Sortuj</Button></TableCell>
 									<TableCell>Dyspozytor</TableCell>
 									<TableCell>Zmiana statusu</TableCell>
 								</TableRow>

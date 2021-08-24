@@ -59,7 +59,7 @@ export default function ThirdStep(props) {
 				<ListItem className={classes.listItem}>
 					<ListItemText primary="Numer kontaktowy" />
 					<Typography variant="subtitle1" className={classes.total}>
-						{data.phone}
+						{data.phone || "Brak"}
 					</Typography>
 				</ListItem>
 			</List>

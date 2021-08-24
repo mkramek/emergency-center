@@ -68,6 +68,10 @@ export default function MainContainer() {
 		console.log(currentData);
 	};
 
+	const handleDataReset = () => {
+		setData({});
+	};
+
 	if (data.sendRequest) {
 		data.sendRequest = false;
 		axios.post('/api/emergency', {
@@ -104,18 +108,22 @@ export default function MainContainer() {
 
 	const handleNext = () => {
 		const validation = () => {
-			const mandatoryKeys = ["phone", "type", "address"];
+			const mandatoryKeys = ["type", "address"];
 			for (const key of mandatoryKeys) {
 				if (!Object.keys(data).includes(key)) {
 					return false;
 				}
 			}
-			const MIN_KEYS_COUNT = 3;
+			const MIN_KEYS_COUNT = 2;
 			let keys = 0;
 			for (const key of Object.keys(data)) {
 				keys++;
-				if (data[key].length < 1 || (key === "phone" && !data[key].match("^[0-9]+$"))) {
-					setError("Nieprawidłowo wprowadzone dane");
+				if (key === "phone" && !data[key].match("^[0-9]{0}|[0-9]{9}$")) {
+					setError("Nieprawidłowy numer telefonu");
+					return false;
+				}
+				if (data[key].length < 1) {
+					setError("Nie wypełniono wszystkich wymaganych danych");
 					return false;
 				}
 			}
@@ -130,12 +138,10 @@ export default function MainContainer() {
 					isFire: data.fireDeptRequired,
 					isLifeDanger: data.rescueTeamRequired,
 					phoneNumber: data.phone
-				})
+				});
 			}
 			setError("");
 			setActiveStep(activeStep + 1);
-		} else {
-			setError("Nieprawidłowo wprowadzone dane");
 		}
 	};
 
@@ -144,6 +150,7 @@ export default function MainContainer() {
 	};
 
 	const handleStart = () => {
+		handleDataReset();
 		setActiveStep(0);
 	};
 
